@@ -19,6 +19,11 @@ export default function BudgetEntryScreen({ onSave, onShowItems }) {
       actualAmount: parseFloat(actualAmount),
     };
 
+    // Save entry to localStorage
+    const existingEntries = JSON.parse(localStorage.getItem('budgetEntries') || '[]');
+    const updatedEntries = [...existingEntries, entry];
+    localStorage.setItem('budgetEntries', JSON.stringify(updatedEntries));
+
     onSave(entry);
 
     // Clear input fields

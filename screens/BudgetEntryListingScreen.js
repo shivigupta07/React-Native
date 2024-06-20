@@ -1,7 +1,14 @@
 import React from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, StyleSheet } from 'react-native';
 
-export default function BudgetEntryListingScreen({ entries }) {
+export default function BudgetEntryListingScreen() {
+  const [entries, setEntries] = React.useState([]);
+
+  React.useEffect(() => {
+    const storedEntries = JSON.parse(localStorage.getItem('budgetEntries') || '[]');
+    setEntries(storedEntries);
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Budget Entry Listing</Text>
@@ -9,11 +16,11 @@ export default function BudgetEntryListingScreen({ entries }) {
         data={entries}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.entryContainer}>
+          <View style={styles.entryContainer}>
             <Text style={styles.label}>Name: {item.itemName}</Text>
             <Text style={styles.label}>Planned Amount: {item.plannedAmount}</Text>
             <Text style={styles.label}>Actual Amount: {item.actualAmount}</Text>
-          </TouchableOpacity>
+          </View>
         )}
       />
     </View>
