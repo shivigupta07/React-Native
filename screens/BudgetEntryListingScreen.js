@@ -1,27 +1,5 @@
-// import React from 'react';
-// import { View, Text, FlatList } from 'react-native';
-
-// export default function BudgetEntryListingScreen({ entries }) {
-//   return (
-//     <View>
-//       <Text>Title: Budget entry listing</Text>
-//       <FlatList
-//         data={entries}
-//         keyExtractor={(item, index) => index.toString()}
-//         renderItem={({ item }) => (
-//           <View>
-//             <Text>Name: {item.itemName}</Text>
-//             <Text>Planned Amount: {item.plannedAmount}</Text>
-//             <Text>Actual Amount: {item.actualAmount}</Text>
-//           </View>
-//         )}
-//       />
-//     </View>
-//   );
-// }
-
 import React from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 
 export default function BudgetEntryListingScreen({ entries }) {
   return (
@@ -31,11 +9,11 @@ export default function BudgetEntryListingScreen({ entries }) {
         data={entries}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
-          <View style={styles.entryContainer}>
+          <TouchableOpacity style={styles.entryContainer}>
             <Text style={styles.label}>Name: {item.itemName}</Text>
             <Text style={styles.label}>Planned Amount: {item.plannedAmount}</Text>
             <Text style={styles.label}>Actual Amount: {item.actualAmount}</Text>
-          </View>
+          </TouchableOpacity>
         )}
       />
     </View>
@@ -54,14 +32,20 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   entryContainer: {
+    backgroundColor: '#ffffff',
     borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
+    borderColor: '#e0e0e0',
+    borderRadius: 8,
+    padding: 16,
+    marginBottom: 12,
+    elevation: 4, // For Android shadow
+    shadowColor: '#000000', // For iOS shadow
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
   label: {
     fontSize: 16,
-    marginTop: 4,
+    marginBottom: 4,
   },
 });
