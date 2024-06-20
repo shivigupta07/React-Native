@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import { TextInput as PaperTextInput, Button as PaperButton } from 'react-native-paper';
+// screens/BudgetEntryScreen.js
 
-export default function BudgetEntryScreen({ onSave, onShowItems }) {
-  const [itemName, setItemName] = useState('');
-  const [plannedAmount, setPlannedAmount] = useState('');
-  const [actualAmount, setActualAmount] = useState('');
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { TextInput as PaperTextInput, Button as PaperButton } from 'react-native-paper';
+import { useDispatch } from 'react-redux';
+import { addBudgetEntry } from '../actions/budgetActions'; // Import action
+
+export default function BudgetEntryScreen({ navigation }) {
+  const dispatch = useDispatch();
+  const [itemName, setItemName] = React.useState('');
+  const [plannedAmount, setPlannedAmount] = React.useState('');
+  const [actualAmount, setActualAmount] = React.useState('');
 
   const saveBudgetEntry = () => {
     if (!itemName || !plannedAmount || !actualAmount) {
@@ -19,12 +24,8 @@ export default function BudgetEntryScreen({ onSave, onShowItems }) {
       actualAmount: parseFloat(actualAmount),
     };
 
-    // Save entry to localStorage
-    const existingEntries = JSON.parse(localStorage.getItem('budgetEntries') || '[]');
-    const updatedEntries = [...existingEntries, entry];
-    localStorage.setItem('budgetEntries', JSON.stringify(updatedEntries));
-
-    onSave(entry);
+    // Dispatch action to add budget entry
+    dispatch(addBudgetEntry(entry));
 
     // Clear input fields
     setItemName('');
@@ -61,7 +62,7 @@ export default function BudgetEntryScreen({ onSave, onShowItems }) {
       <PaperButton mode="contained" style={styles.button} onPress={saveBudgetEntry}>
         Save
       </PaperButton>
-      <PaperButton mode="outlined" style={styles.button} onPress={onShowItems}>
+      <PaperButton mode="outlined" style={styles.button} onPress={() => navigation.navigate('BudgetEntryListing')}>
         Show Items
       </PaperButton>
     </View>

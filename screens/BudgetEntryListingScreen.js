@@ -1,20 +1,16 @@
+// screens/BudgetEntryListingScreen.js
+
 import React from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteBudgetEntry } from '../actions/budgetActions'; // Import delete action
 
 export default function BudgetEntryListingScreen() {
-  const [entries, setEntries] = React.useState([]);
-
-  React.useEffect(() => {
-    const storedEntries = JSON.parse(localStorage.getItem('budgetEntries') || '[]');
-    setEntries(storedEntries);
-  }, []);
+  const dispatch = useDispatch();
+  const entries = useSelector(state => state.budget.budgetEntries); // Ensure state path is correct
 
   const handleDeleteEntry = (index) => {
-    const updatedEntries = [...entries];
-    updatedEntries.splice(index, 1);
-    setEntries(updatedEntries);
-    // Update localStorage as needed
-    localStorage.setItem('budgetEntries', JSON.stringify(updatedEntries));
+    dispatch(deleteBudgetEntry(index));
   };
 
   return (
